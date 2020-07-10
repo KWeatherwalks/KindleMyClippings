@@ -1,0 +1,5 @@
+1) Check if line is the start of a new entry [title, author] pattern
+    1a) start a new entry and clear variables
+    1b) store the title and author temporarily (until next entry)
+    1c) know that the next line will have the [Highlight | Location | Date added] pattern
+2) on next line, grab the 
