@@ -3,8 +3,6 @@ import re
 import numpy as np
 import pandas as pd
 
-df = pd.DataFrame(columns=["title", "author", "note", "page", "location", "date_added"])
-
 
 def get_title_author(title_author):
     """Takes a list containing a string with the title author pattern
@@ -20,9 +18,22 @@ def get_title_author(title_author):
         return None, None
 
 
+def get_highlight_loc_date():
+    pass
+
+
+def get_note():
+    pass
+
+
+#########################################################################################
+
+df = pd.DataFrame(columns=["title", "author", "note", "page", "location", "date_added"])
+
 # <title> <(lastname, firstname)> pattern
 title_author_pattern = re.compile(r".*\(\w+, \w+\)")
 state = 0  # 3 states: new (0), second (1), note (2)
+
 with open("My Clippings.txt", "r", encoding="utf-8") as file:
     for line in file:
         # check to see if all data has been collected for the current entry
