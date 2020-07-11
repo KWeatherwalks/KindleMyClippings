@@ -2,6 +2,7 @@ import re
 
 import numpy as np
 import pandas as pd
+from unidecode import unidecode
 
 
 def get_title_author(title_author):
@@ -27,44 +28,32 @@ def get_note():
 
 
 #########################################################################################
-
-df = pd.DataFrame(columns=["title", "author", "note", "page", "location", "date_added"])
+data_columns = ["title", "author", "note", "page", "location", "date_added"]
+df = pd.DataFrame(columns=data_columns)
 
 # <title> <(lastname, firstname)> pattern
 title_author_pattern = re.compile(r".*\(\w+, \w+\)")
-state = 0  # 3 states: new (0), second (1), note (2)
 
 with open("My Clippings.txt", "r", encoding="utf-8") as file:
-    for line in file:
-        # check to see if all data has been collected for the current entry
-        if line == "==========":
-            # do something to submit the entry and reset the data
+    line = file.readline()
+    line_count = 0
+    while line:
+        # The new entry phase
 
-            state = 0
-            continue  # bypass the remaining checks
+        # Line 1: get the title and author name
+        try:
+            title_author = title_author_pattern.findall(line)
+            title, author = get_title_author(title_author)
+            print(title, author)
+        except ValueError:
+            print("ERROR", title_author)
+        except UnicodeError:
+            print("error")
 
-        # The new entry state
-        elif state == 0:
-            # get the title and author data
-            data = [None for _ in range(len(df.columns))]
-            # get the title and author name
-            try:
-                title_author = title_author_pattern.findall(line)
-                title, author = get_title_author(title_author)
-            except ValueError:
-                print("ERROR", title_author)
-            except UnicodeError:
-                print("error")
-            # move to next state
-            state += 1
+        # Line 2: the highlight, location, date added phase
 
-        # The highlight, location, date added phase
-        elif state == 1:
-            # do something to get the data
+        # Line 3: blank
 
-            # move to next state
-            state += 1
+        # Line 4: The note phase
 
-        # The note phase
-        elif state == 2:
-            pass
+        # Line 5: end of note
