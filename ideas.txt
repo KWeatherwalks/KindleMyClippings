@@ -1,6 +1,10 @@
-1) Check if line is the start of a new entry [title, author] pattern
-    1a) start a new entry and clear variables
-    1b) store the title and author temporarily (until next entry)
-    1c) know that the next line will have the [Highlight | Location | Date added] pattern
-2) on next line, grab the data
-3) next, grab the 
+- Grab the data from each entry
+- Each entry has the following format:
+    Line 1: <Title> <(optional parenthetical)> <(author)>
+    Line 2: - <Highlight> | <Location> | <Date Added>
+    Line 3: <blank>
+    Line 4: <Note>
+    Line 5: ========== <End of note>
+
+Alternatively, the format for Line 2 is 
+- <Highlight> on <Location> | <Date Added>

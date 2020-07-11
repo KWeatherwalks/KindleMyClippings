@@ -5,9 +5,16 @@ import pandas as pd
 from unidecode import unidecode
 
 
-def get_title_author(title_author):
-    """Takes a list containing a string with the title author pattern
-        and returns a tuple containing the title and author"""
+def get_title_author(line):
+    """Takes a string and returns a tuple containing the title and author
+        if they match the title author format"""
+    try:
+        title_author = title_author_pattern.findall(line)
+    except ValueError:
+        print("Value ERROR", title_author)
+    except UnicodeError:
+        print("Unicode ERROR")
+
     if title_author:  # check that pattern was matched with line
         # if so, we are at the beginning of the entry
         title_author_string = title_author[0][:-1]
@@ -41,19 +48,17 @@ with open("My Clippings.txt", "r", encoding="utf-8") as file:
         # The new entry phase
 
         # Line 1: get the title and author name
-        try:
-            title_author = title_author_pattern.findall(line)
-            title, author = get_title_author(title_author)
-            print(title, author)
-        except ValueError:
-            print("ERROR", title_author)
-        except UnicodeError:
-            print("error")
+        line = file.readline()
+        title, author = get_title_author(line)
 
         # Line 2: the highlight, location, date added phase
+        line2 = file.readline()
 
         # Line 3: blank
+        line3 = file.readline()
 
         # Line 4: The note phase
+        line4 = file.readline()
 
         # Line 5: end of note
+        line5 = file.readline()
