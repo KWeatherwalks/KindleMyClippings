@@ -2,13 +2,12 @@ import re
 
 import numpy as np
 import pandas as pd
-
-# from unidecode import unidecode
+from unidecode import unidecode
 
 
 def get_title_author(line):
-    """Takes a string and returns a tuple containing the title and author
-        if they match the title author format"""
+    """Takes a string and returns a tuple containing the title, author, and edition
+        if they match the title {collection} author format"""
     try:
         title_author = re.search(title_author_pattern, line)
     except ValueError:
@@ -25,20 +24,45 @@ def get_title_author(line):
     return title, author, collection
 
 
-def get_highlight_loc_date():
-    pass
+def get_highlight_loc_date(line):
+    """Takes a string and returns a tuple containing the page, location, and 
+        date added if they match the pattern
+    """
+    try:
+        page = re.search(highlight_pattern, line).group(1)
+    except:
+        page = None
+        print("page ERROR")
+    try:
+        location = re.search(location_pattern, line).group(1)
+    except:
+        location = None
+        print("location ERROR")
+    try:
+        date = re.search(date_pattern, line).group(1)
+    except:
+        date = None
+        print("date ERROR")
+
+    return page, location, date
 
 
-def get_note():
-    pass
+def get_note(line):
+    return unidecode(line).strip("\n")
 
 
 #########################################################################################
 data_columns = ["title", "author", "note", "page", "location", "date_added"]
 df = pd.DataFrame(columns=data_columns)
 
-# <title> <(lastname, firstname)> pattern
+# Regular expression patterns
 title_author_pattern = re.compile(r"(\w+[^(]*) (\(.+\))?\s*\((.+)\)")
+highlight_pattern = re.compile(r"page (\d+)")
+location_pattern = re.compile(r"Location ([0-9-]+)")
+date_pattern = re.compile(r"(\w{3,12} \d{1,2}, \d{4})")
+
+
+#########################################################################################
 
 with open("My Clippings.txt", "r", encoding="utf-8") as file:
     line = file.readline()
@@ -49,14 +73,15 @@ with open("My Clippings.txt", "r", encoding="utf-8") as file:
         # Line 1: get the title and author name
         line = file.readline()
         if line:
-            print("\nReading line 1: {0}".format(line), end="")
+            # print("\nReading line 1: {0}".format(line), end="")
             title, author, collection = get_title_author(line)
             line_count += 1
 
         # Line 2: the highlight, location, date added phase
         line2 = file.readline()
         if line2:
-            print("Reading line 2: {0}".format(line2))
+            # print("Reading line 2: {0}".format(line2))
+            page, location, date = get_highlight_loc_date(line2)
             line_count += 1
 
         # Line 3: blank
@@ -69,6 +94,7 @@ with open("My Clippings.txt", "r", encoding="utf-8") as file:
         line4 = file.readline()
         if line4:
             # print("Reading line 4: {0}".format(line4))
+            note = get_note(line4)
             line_count += 1
 
         # Line 5: end of note
@@ -77,6 +103,22 @@ with open("My Clippings.txt", "r", encoding="utf-8") as file:
             # print("Reading line 5: {0}".format(line5))
             line_count += 1
 
-        print("Title:\t", title, "\nAuthor:\t", author, "\nEdition:\t", collection)
+        print(
+            "\nTitle:\t",
+            title,
+            "\nAuthor:\t",
+            author,
+            "\nEdition:\t",
+            collection,
+            "\nNote:\t",
+            note,
+            "\non page",
+            page,
+            "at location",
+            location,
+            "added on",
+            date,
+        )
 
+#########################################################################################
 print(f"{line_count} lines read")
