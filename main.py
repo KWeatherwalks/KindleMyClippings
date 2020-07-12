@@ -55,6 +55,25 @@ def get_note(line):
     return unidecode(line).strip("\n")
 
 
+def print_entry(title, author, collection, note, page, location, date):
+    print(
+        "\nTitle:\t",
+        title,
+        "\nAuthor:\t",
+        author,
+        "\nEdition:\t",
+        collection,
+        "\nNote:\t",
+        note,
+        "\non page",
+        page,
+        "at location",
+        location,
+        "added on",
+        date,
+    )
+
+
 #########################################################################################
 
 # Regular expression patterns
@@ -98,26 +117,11 @@ def add_to_database(connection, filepath):
             if line5:
                 line_count += 1
 
-            # print(
-            #     "\nTitle:\t",
-            #     title,
-            #     "\nAuthor:\t",
-            #     author,
-            #     "\nEdition:\t",
-            #     collection,
-            #     "\nNote:\t",
-            #     note,
-            #     "\non page",
-            #     page,
-            #     "at location",
-            #     location,
-            #     "added on",
-            #     date,
-            # )
             # Add to database
             database.add_note(
                 connection, title, collection, author, note, page, location, date
             )
+
     print(f"{line_count} lines read")
 
 

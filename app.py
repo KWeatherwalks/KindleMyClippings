@@ -26,13 +26,16 @@ def menu():
             filepath = input("Enter the full filepath: ")
             main.add_to_database(connection, filepath)
         elif user_input == "2":
-            pass
+            print(database.get_all_notes(connection))
         elif user_input == "3":
             pass
         elif user_input == "4":
             pass
         elif user_input == "5":
             database.reset_database(connection)
+        elif user_input == "6":
+            connection.close()
+            print("Goodbye!")
         else:
             print("Invalid input, please try again!")
 
