@@ -1,6 +1,7 @@
 import sqlite3
 
 CREATE_NOTES_TABLE = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY, title TEXT, edition TEXT, author TEXT, note TEXT, page INTEGER, location TEXT, date DATE);"
+RESET_DB = "DROP TABLE notes"
 INSERT_NOTE = "INSERT INTO notes (title, edition, author, note, page, location, date) VALUES (?,?,?,?,?,?,?);"
 GET_ALL_NOTES = "SELECT * FROM notes;"
 GET_ALL_NOTES_BY_AUTHOR = "SELECT * FROM notes WHERE author = ?;"
@@ -14,6 +15,11 @@ def connect():
 def create_tables(connection):
     with connection:
         connection.execute(CREATE_NOTES_TABLE)
+
+
+def reset_database(connection):
+    with connection:
+        connection.execute(RESET_DB)
 
 
 def add_note(connection, title, edition, author, note, page, location, date):
