@@ -1,6 +1,6 @@
 import sqlite3
 
-CREATE_NOTES_TABLE = "CREATE TABLE notes (id INTEGER PRIMARY KEY, title TEXT, edition TEXT author TEXT, note TEXT, page INTEGER, location TEXT, date DATE);"
+CREATE_NOTES_TABLE = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY, title TEXT, edition TEXT, author TEXT, note TEXT, page INTEGER, location TEXT, date DATE);"
 INSERT_NOTE = "INSERT INTO notes (title, edition, author, note, page, location, date) VALUES (?,?,?,?,?,?,?);"
 GET_ALL_NOTES = "SELECT * FROM notes;"
 GET_ALL_NOTES_BY_AUTHOR = "SELECT * FROM notes WHERE author = ?;"
