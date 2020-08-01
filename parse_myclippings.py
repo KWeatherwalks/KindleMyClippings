@@ -1,7 +1,5 @@
 import re
 
-import numpy as np
-import pandas as pd
 from unidecode import unidecode  # fixes issues with smart quotes
 
 import database
