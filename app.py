@@ -1,5 +1,6 @@
+import parser
+
 import database
-import main
 
 MENU_PROMPT = """-- Kindle My Clippings Notes App -- 
 
@@ -25,7 +26,7 @@ def menu():
         # Upload a new file
         if user_input == "1":
             filepath = input("Enter the full filepath: ")
-            main.add_to_database(connection, filepath)
+            parser.add_to_database(connection, filepath)
         # Show all notes
         elif user_input == "2":
             notes = database.get_all_notes(connection)
